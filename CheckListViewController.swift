@@ -7,17 +7,43 @@
 
 import UIKit
 
-// MARK: - Checklist class
+
 class CheckListViewController: UITableViewController,AddItemViewControllerDelegate  {
     
-    // MARK: - Views
+    // MARK: - Variables
+    var row0item = ChecklistItem()
+    var items = [ChecklistItem]()
+    
+    // MARK: - View LifeCycle
+    override func viewDidLoad()
+    {
+        super.viewDidLoad()
+        navigationController?.navigationBar.prefersLargeTitles = true
+    }
+    
+    // MARK: - Navigation
+    override func prepare(for segue: UIStoryboardSegue,sender: Any?)
+    {
+        // 1
+        if segue.identifier == "AddItem"
+        {
+            // 2
+            let controller = segue.destination as! AddItemViewController
+            // 3
+            controller.delegate = self
+        }
+    }
+    
+}
+extension CheckListViewController
+{
+    // MARK: - Delegates & DataSource
+    
     // Add Item ViewController Delegates
     func addItemViewControllerDidCancel(_ controller: AddItemViewController)
     {
         navigationController?.popViewController(animated: true)
     }
-    
-    // MARK: - Add item
     func addItemViewController(_ controller: AddItemViewController,didFinishEditing item: ChecklistItem)
     {
         // Seeting Index for new row
@@ -33,39 +59,13 @@ class CheckListViewController: UITableViewController,AddItemViewControllerDelega
         // Going back to main screen
         navigationController?.popViewController(animated:true)
     }
-    
-    // MARK: - Navigation
-    // Navigating to add new item
-    override func prepare(for segue: UIStoryboardSegue,sender: Any?)
-    {
-        // 1
-        if segue.identifier == "AddItem"
-        {
-            // 2
-            let controller = segue.destination as! AddItemViewController
-            // 3
-            controller.delegate = self
-        }
-    }
-    
-    // MARK: - Checklist items class call
-    var row0item = ChecklistItem()
-    var items = [ChecklistItem]()
-    
-    // MARK: - Onload function
-    override func viewDidLoad()
-    {
-        super.viewDidLoad()
-        navigationController?.navigationBar.prefersLargeTitles = true
-    }
-    
-    // MARK: - Views
+    // Number of rows to show
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int)    -> Int
     {
         return items.count
         
     }
-    
+    // Cells for Rows
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         let cell = tableView.dequeueReusableCell(
@@ -76,8 +76,6 @@ class CheckListViewController: UITableViewController,AddItemViewControllerDelega
         configureCheckmark(for: cell, with: item)
         return cell
     }
-    
-    // MARK: - Views Data Source
     // Did Select Row
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     {
@@ -91,24 +89,21 @@ class CheckListViewController: UITableViewController,AddItemViewControllerDelega
     }
     
     // Configuring check Marks
-    func configureCheckmark( for cell: UITableViewCell, with item: ChecklistItem)
+    func configureCheckmark(for cell: UITableViewCell, with item: ChecklistItem
+    )
     {
-        if item.checked
-        {
-            cell.accessoryType = .checkmark
-        }
-        else
-        {
-            cell.accessoryType = .none
-        }
+    let label = cell.viewWithTag(1001) as! UILabel
+      if item.checked {
+        label.text = "✓"
+    } else {
+        label.text = ""
+      }
     }
     func configureText( for cell: UITableViewCell, with item: ChecklistItem)
     {
         let label = cell.viewWithTag(1000) as! UILabel
         label.text = item.text
     }
-    
-    // MARK: - Functionality to  Button
     // Swipe to delete
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath )
     {

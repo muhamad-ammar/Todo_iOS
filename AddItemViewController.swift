@@ -14,17 +14,18 @@ protocol AddItemViewControllerDelegate: AnyObject
         _ controller: AddItemViewController)
     func addItemViewController(_ controller: AddItemViewController, didFinishEditing item: ChecklistItem)
 }
-// MARK: - Class
+
+// Add Item View Controller
 class AddItemViewController: UITableViewController, UITextFieldDelegate{
     
     // MARK: - Outlets
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var doneBarButton: UIBarButtonItem!
     
-    // MARK: - Delegates
+    // MARK: - Variables
     weak var delegate: AddItemViewControllerDelegate?
     
-    //MARK: onload fucntion
+    //MARK: View LifeCycle
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -37,33 +38,6 @@ class AddItemViewController: UITableViewController, UITextFieldDelegate{
             doneBarButton.isEnabled = true
         }
     }
-    
-    // MARK: - Views
-    override func viewWillAppear(_ animated: Bool)
-    {
-        super.viewWillAppear(animated)
-        textField.becomeFirstResponder()
-    }
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String ) -> Bool
-    {
-        let oldText = textField.text!
-        let stringRange = Range(range, in: oldText)!
-        let newText = oldText.replacingCharacters(in: stringRange, with: string)
-        return true
-    }
-    
-    // MARK: - Table view data source
-    override func numberOfSections(in tableView: UITableView) -> Int
-    {
-        return 1
-    }
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
-    {
-        return 1
-    }
-    
-    
     var itemToEdit: ChecklistItem?
     override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath ) -> IndexPath?
     {
@@ -92,4 +66,33 @@ class AddItemViewController: UITableViewController, UITextFieldDelegate{
             delegate?.addItemViewController(self, didFinishEditing: item)
         }
     }
+    
+}
+
+extension AddItemViewController
+{
+    // MARK: - Delegates & DataSource
+    override func viewWillAppear(_ animated: Bool)
+    {
+        super.viewWillAppear(animated)
+        textField.becomeFirstResponder()
+    }
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String ) -> Bool
+    {
+        let oldText = textField.text!
+        let stringRange = Range(range, in: oldText)!
+        let newText = oldText.replacingCharacters(in: stringRange, with: string)
+        return true
+    }
+    override func numberOfSections(in tableView: UITableView) -> Int
+    {
+        return 1
+    }
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
+        return 1
+    }
+    
+    
+    
 }
