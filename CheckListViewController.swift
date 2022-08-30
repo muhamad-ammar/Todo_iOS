@@ -11,8 +11,9 @@ import UIKit
 class CheckListViewController: UITableViewController,AddItemViewControllerDelegate  {
     
     // MARK: - Variables
-    var row0item = ChecklistItem()
+    
     var items = [ChecklistItem]()
+    var checklist: Checklist!
     
     // MARK: - View LifeCycle
     override func viewDidLoad()
@@ -20,6 +21,7 @@ class CheckListViewController: UITableViewController,AddItemViewControllerDelega
         super.viewDidLoad()
 //        navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .never
+        title = checklist.name
         loadChecklistItems()
     }
     
