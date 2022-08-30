@@ -32,6 +32,14 @@ class CheckListViewController: UITableViewController,AddItemViewControllerDelega
             // 3
             controller.delegate = self
         }
+        else if segue.identifier == "EditItem" {
+            let controller = segue.destination as! AddItemViewController
+            controller.delegate = self
+            if let indexPath = tableView.indexPath(
+              for: sender as! UITableViewCell) {
+              controller.itemToEdit = items[indexPath.row]
+            }
+        }
     }
     
 }
@@ -44,7 +52,7 @@ extension CheckListViewController
     {
         navigationController?.popViewController(animated: true)
     }
-    func addItemViewController(_ controller: AddItemViewController,didFinishEditing item: ChecklistItem)
+    func addItemViewController(_ controller: AddItemViewController,didFinishAdding item: ChecklistItem)
     {
         // Seeting Index for new row
         let newRowIndex = items.count
@@ -112,6 +120,18 @@ extension CheckListViewController
         // 2
         let indexPaths = [indexPath]
         tableView.deleteRows(at: indexPaths, with: .automatic)
+    }
+    func addItemViewController(
+      _ controller: AddItemViewController,
+      didFinishEditing item: ChecklistItem
+    ){
+    if let index = items.firstIndex(of: item) {
+        let indexPath = IndexPath(row: index, section: 0)
+        if let cell = tableView.cellForRow(at: indexPath) {
+          configureText(for: cell, with: item)
+        }
+    }
+      navigationController?.popViewController(animated: true)
     }
 }
 

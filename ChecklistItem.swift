@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 // Class for Holding checklist items, text and status
-class ChecklistItem {
+class ChecklistItem: NSObject {
   var text = ""
   var checked = false
 }
