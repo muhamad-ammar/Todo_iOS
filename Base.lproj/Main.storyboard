@@ -184,7 +184,7 @@
         <!--Add Checklist-->
         <scene sceneID="mei-dN-0tR">
             <objects>
-                <tableViewController id="8Cu-6U-83F" customClass="ListDetailViewController" customModule="Todos" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="ListDetailViewController" id="8Cu-6U-83F" customClass="ListDetailViewController" customModule="Todos" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="yIv-zk-41b">
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
